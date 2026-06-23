@@ -1,0 +1,10 @@
+.env
+node_modules
+dist
+logs
+*.log
+.env.local
+.env.development
+.env.test
+.env.production
+package-lock.json
