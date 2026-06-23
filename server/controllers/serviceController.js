@@ -1,59 +1,50 @@
 const Service = require("../models/Service");
 
-// Get all services
 exports.getAllServices = async (req, res) => {
   try {
     const services = await Service.find({ isAvailable: true }).sort({
       createdAt: -1,
     });
-    res.status(200).json(services);
+    res.json({ success: true, data: services });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
-// Get a single service
 exports.getService = async (req, res) => {
   try {
     const service = await Service.findById(req.params.id);
-    if (!service) {
-      return res.status(404).json({ message: "Service not found" });
-    }
-    res.status(200).json(service);
+    if (!service)
+      return res
+        .status(404)
+        .json({ success: false, message: "Service not found" });
+    res.json({ success: true, data: service });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
-// Create a new service
 exports.createService = async (req, res) => {
   try {
     const service = await Service.create(req.body);
-    res
-      .status(201)
-      .json({
-        success: true,
-        message: "Service created successfully",
-        data: service,
-      });
+    res.status(201).json({ success: true, data: service });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(400).json({ success: false, message: error.message });
   }
 };
 
-//Seed default services
 exports.seedServices = async (req, res) => {
   try {
     const count = await Service.countDocuments();
-    if (count > 0) {
-      return res.status(400).json({ message: "Services already seeded" });
-    }
+    if (count > 0)
+      return res.json({ success: true, message: "Services already seeded" });
+
     const defaultServices = [
       {
         title: "Screen Repair",
         description:
-          "Professional screen replacementfor all smartphone brands. We use OEM quality parts to ensure your device looks and functions like new.",
-        price: 100,
+          "Professional screen replacement for all smartphone brands. We use OEM quality parts for the best display experience.",
+        price: 1499,
         duration: "1-2 hours",
         category: "screen-repair",
         icon: "📱",
@@ -61,58 +52,53 @@ exports.seedServices = async (req, res) => {
       {
         title: "Battery Replacement",
         description:
-          "Fast and reliable battery replacement service. We use high-quality batteries to ensure your device lasts longer and performs better.",
-        price: 80,
-        duration: "30-60 minutes",
+          "Restore your phone battery life to 100%. We replace with high-capacity genuine batteries for all major brands.",
+        price: 799,
+        duration: "30-60 mins",
         category: "battery",
         icon: "🔋",
       },
       {
-        title: "Software Troubleshooting",
-        description:
-          "Expert software troubleshooting for all smartphone brands. We can fix software issues, remove viruses, and optimize your device for better performance.",
-        price: 50,
-        duration: "1-2 hours",
-        category: "software",
-        icon: "💻",
-      },
-      {
         title: "Water Damage Repair",
         description:
-          "Professional water damage repair service. We can clean and repair your device to restore its functionality after water exposure.",
-        price: 120,
-        duration: "2-3 hours",
+          "Advanced water damage treatment with ultrasonic cleaning. Recover your device from liquid damage effectively.",
+        price: 1999,
+        duration: "2-4 hours",
         category: "water-damage",
         icon: "💧",
       },
       {
+        title: "Software Fix & Unlock",
+        description:
+          "Fix software issues, remove viruses, factory reset, OS updates, and unlock carrier-locked devices.",
+        price: 499,
+        duration: "1-3 hours",
+        category: "software",
+        icon: "⚙️",
+      },
+      {
         title: "Data Recovery",
         description:
-          "Reliable data recovery service for all smartphone brands. We can recover lost data from damaged or corrupted devices.",
-        price: 150,
-        duration: "2-4 hours",
+          "Recover lost photos, contacts, messages, and important files from damaged or corrupted devices.",
+        price: 2499,
+        duration: "4-8 hours",
         category: "data-recovery",
         icon: "💾",
       },
       {
-        title: "Other Repairs",
+        title: "Charging Port Repair",
         description:
-          "We offer a wide range of other repair services for smartphones, including camera replacement, charging port repair, and more.",
-        price: 70,
+          "Fix or replace faulty charging ports. Stop struggling with charging issues on any device.",
+        price: 599,
         duration: "1-2 hours",
         category: "other",
-        icon: "🛠",
+        icon: "🔌",
       },
     ];
+
     await Service.insertMany(defaultServices);
-    const seededServices = await Service.find();
-    res
-      .status(201)
-      .json({
-        success: true,
-        message: "Default services seeded successfully",
-        data: seededServices,
-      });
+    const services = await Service.find();
+    res.json({ success: true, message: "Services seeded", data: services });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
