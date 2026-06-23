@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  html { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+  body { @apply bg-white dark:bg-navy text-slate-800 dark:text-slate-100 transition-colors duration-300; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-slate-100 dark:bg-navy; }
+  ::-webkit-scrollbar-thumb { @apply bg-slate-300 dark:bg-navy-mid rounded; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-blue-400; }
+  input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
+}
+
+@layer components {
+  .gradient-text {
+    @apply bg-gradient-to-r from-blue-500 via-blue-400 to-amber-400 bg-clip-text text-transparent;
+  }
+  .glass-card {
+    @apply bg-white/80 dark:bg-navy-light/80 backdrop-blur-sm border border-slate-200 dark:border-white/[0.06] rounded-2xl;
+  }
+  .input-field {
+    @apply w-full px-4 py-3.5 rounded-xl bg-slate-100 dark:bg-navy-light border border-slate-200 dark:border-white/[0.08]
+           text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-navy-mid
+           focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20
+           transition-all duration-200;
+  }
+  .label {
+    @apply block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2 tracking-wide;
+  }
+  .section-badge {
+    @apply inline-block bg-blue-50 dark:bg-blue-500/15 border border-blue-200 dark:border-blue-500/30
+           text-blue-600 dark:text-blue-300 px-4 py-1.5 rounded-full text-xs font-semibold
+           uppercase tracking-widest mb-4;
+  }
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-display font-semibold text-sm
+           bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/30
+           hover:shadow-blue-500/50 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer;
+  }
+  .btn-outline {
+    @apply inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-display font-semibold text-sm
+           border-2 border-slate-300 dark:border-white/20 text-slate-700 dark:text-slate-200
+           hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400
+           hover:-translate-y-0.5 transition-all duration-200 cursor-pointer bg-transparent;
+  }
+  .btn-amber {
+    @apply inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-display font-semibold text-sm
+           bg-amber-500 hover:bg-amber-400 text-navy shadow-lg shadow-amber-500/30
+           hover:-translate-y-0.5 transition-all duration-200 cursor-pointer;
+  }
+  .service-card {
+    @apply flex flex-col p-7 rounded-2xl bg-white dark:bg-navy-light
+           border border-slate-200 dark:border-white/[0.06]
+           hover:border-blue-300 dark:hover:border-blue-500/40
+           hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1
+           transition-all duration-300;
+  }
+  .page-hero {
+    @apply pt-28 pb-16 text-center relative overflow-hidden
+           bg-gradient-to-br from-slate-50 to-blue-50/50 dark:from-navy dark:to-navy-light;
+  }
+  .page-hero::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background: radial-gradient(circle at 50% 0%, rgba(59,130,246,0.06), transparent 60%);
+  }
+  .status-pending   { @apply px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300; }
+  .status-confirmed { @apply px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300; }
+  .status-in-progress { @apply px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300; }
+  .status-completed { @apply px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-green-100 dark:bg-green-500/20 text-green-700 dark:text-green-300; }
+  .status-cancelled { @apply px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-300; }
+}
+
+@layer utilities {
+  .font-display { font-family: 'Space Grotesk', sans-serif; }
+  .spinner {
+    display: inline-block; width: 18px; height: 18px;
+    border: 2px solid rgba(255,255,255,0.3); border-top-color: white;
+    border-radius: 50%; animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+}
