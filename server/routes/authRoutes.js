@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const {register, login} = require('../controllers/authController');
+const { protect, adminOnly } = require('../middleware/auth');
+const { register, login, getMe, seedAdmin } = require('../controllers/authController');
 
-// Public routes
 router.post('/register', register);
 router.post('/login', login);
+router.get('/me', protect, getMe);
+router.post('/seed-admin', seedAdmin);
 
 module.exports = router;

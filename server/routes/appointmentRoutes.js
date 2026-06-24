@@ -1,13 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const { bookAppointment,getAllAppointments,getMyAppointments,updateStatus } = require('../controllers/appointmentController');
+const { protect, adminOnly } = require('../middleware/auth');
+const {
+  bookAppointment, getAllAppointments, getMyAppointments,
+  updateAppointment, deleteAppointment, getStats
+} = require('../controllers/appointmentController');
 
-// Public route
 router.post('/', bookAppointment);
-router.get('/', getAllAppointments);
-
-// User-specific route
 router.get('/my/:email', getMyAppointments);
-router.patch('/:id/status', updateStatus);
+router.get('/stats', protect, adminOnly, getStats);
+router.get('/', protect, adminOnly, getAllAppointments);
+router.put('/:id', protect, adminOnly, updateAppointment);
+router.delete('/:id', protect, adminOnly, deleteAppointment);
 
 module.exports = router;

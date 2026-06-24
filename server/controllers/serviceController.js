@@ -2,9 +2,7 @@ const Service = require("../models/Service");
 
 exports.getAllServices = async (req, res) => {
   try {
-    const services = await Service.find({ isAvailable: true }).sort({
-      createdAt: -1,
-    });
+    const services = await Service.find().sort({ createdAt: -1 });
     res.json({ success: true, data: services });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -33,12 +31,38 @@ exports.createService = async (req, res) => {
   }
 };
 
+exports.updateService = async (req, res) => {
+  try {
+    const service = await Service.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!service)
+      return res
+        .status(404)
+        .json({ success: false, message: "Service not found" });
+    res.json({ success: true, data: service });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+exports.deleteService = async (req, res) => {
+  try {
+    const service = await Service.findByIdAndDelete(req.params.id);
+    if (!service)
+      return res
+        .status(404)
+        .json({ success: false, message: "Service not found" });
+    res.json({ success: true, message: "Service deleted" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 exports.seedServices = async (req, res) => {
   try {
-    const count = await Service.countDocuments();
-    if (count > 0)
-      return res.json({ success: true, message: "Services already seeded" });
-
+    await Service.deleteMany({});
     const defaultServices = [
       {
         title: "Screen Repair",
@@ -95,10 +119,13 @@ exports.seedServices = async (req, res) => {
         icon: "🔌",
       },
     ];
-
     await Service.insertMany(defaultServices);
     const services = await Service.find();
-    res.json({ success: true, message: "Services seeded", data: services });
+    res.json({
+      success: true,
+      message: "Services seeded successfully",
+      data: services,
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

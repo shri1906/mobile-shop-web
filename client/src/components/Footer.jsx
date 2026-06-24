@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
@@ -12,12 +12,16 @@ function Footer() {
               📱 TechFix<span className="text-blue-500">Pro</span>
             </div>
             <p className="text-slate-400 text-sm leading-relaxed mb-6">
-              Your trusted mobile repair experts. Fast, reliable, and affordable repairs for all smartphone brands.
+              Your trusted mobile repair experts. Fast, reliable, and affordable
+              repairs for all smartphone brands.
             </p>
             <div className="flex gap-2">
-              {['FB', 'IG', 'TW', 'YT'].map(s => (
-                <a key={s} href="#!"
-                  className="w-9 h-9 bg-white/[0.06] hover:bg-blue-600 rounded-lg flex items-center justify-center text-slate-400 hover:text-white text-xs font-bold transition-all duration-200">
+              {["FB", "IG", "TW", "YT"].map((s) => (
+                <a
+                  key={s}
+                  href="#!"
+                  className="w-9 h-9 bg-white/[0.06] hover:bg-blue-600 rounded-lg flex items-center justify-center text-slate-400 hover:text-white text-xs font-bold transition-all duration-200"
+                >
                   {s}
                 </a>
               ))}
@@ -26,11 +30,24 @@ function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="font-display font-semibold text-white mb-4">Services</h4>
+            <h4 className="font-display font-semibold text-white mb-4">
+              Services
+            </h4>
             <ul className="space-y-2.5">
-              {['Screen Repair', 'Battery Replacement', 'Water Damage', 'Data Recovery', 'Software Fix'].map(s => (
+              {[
+                "Screen Repair",
+                "Battery Replacement",
+                "Water Damage",
+                "Data Recovery",
+                "Software Fix",
+              ].map((s) => (
                 <li key={s}>
-                  <Link to="/services" className="text-slate-400 hover:text-blue-400 text-sm transition-colors">{s}</Link>
+                  <Link
+                    to="/services"
+                    className="text-slate-400 hover:text-blue-400 text-sm transition-colors"
+                  >
+                    {s}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -38,11 +55,23 @@ function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-display font-semibold text-white mb-4">Quick Links</h4>
+            <h4 className="font-display font-semibold text-white mb-4">
+              Quick Links
+            </h4>
             <ul className="space-y-2.5">
-              {[['/', 'Home'], ['/services', 'All Services'], ['/appointment', 'Book Appointment'], ['/feedback', 'Customer Reviews']].map(([path, label]) => (
+              {[
+                ["/", "Home"],
+                ["/services", "All Services"],
+                ["/appointment", "Book Appointment"],
+                ["/feedback", "Customer Reviews"],
+              ].map(([path, label]) => (
                 <li key={path}>
-                  <Link to={path} className="text-slate-400 hover:text-blue-400 text-sm transition-colors">{label}</Link>
+                  <Link
+                    to={path}
+                    className="text-slate-400 hover:text-blue-400 text-sm transition-colors"
+                  >
+                    {label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -50,7 +79,9 @@ function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-display font-semibold text-white mb-4">Contact Us</h4>
+            <h4 className="font-display font-semibold text-white mb-4">
+              Contact Us
+            </h4>
             <ul className="space-y-2.5 text-sm text-slate-400">
               <li>📍 123 Tech Street, Dehradun</li>
               <li>📞 +91 98765 43210</li>
