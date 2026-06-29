@@ -97,7 +97,7 @@ export default function AdminFeedback() {
             <span className="text-amber-500 font-semibold">★ {avgRating}</span>
           </p>
         </div>
-        <button
+        {/* <button
           onClick={handleSeed}
           disabled={seeding}
           className="btn-outline text-sm py-2 px-4"
@@ -109,7 +109,7 @@ export default function AdminFeedback() {
           ) : (
             "🌱 Seed Samples"
           )}
-        </button>
+        </button> */}
       </div>
 
       {msg && (

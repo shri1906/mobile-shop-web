@@ -144,7 +144,7 @@ export default function AdminServices() {
           </p>
         </div>
         <div className="flex gap-3">
-          <button
+          {/* <button
             onClick={handleSeed}
             disabled={seeding}
             className="btn-outline text-sm py-2 px-4"
@@ -156,7 +156,7 @@ export default function AdminServices() {
             ) : (
               "🌱 Seed Defaults"
             )}
-          </button>
+          </button> */}
           <button onClick={openAdd} className="btn-primary text-sm py-2 px-4">
             + Add Service
           </button>

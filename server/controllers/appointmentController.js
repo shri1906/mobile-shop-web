@@ -34,7 +34,7 @@ exports.bookAppointment = async (req, res) => {
       service: serviceId,
       deviceModel,
       issueDescription,
-      appointmentDate: date,
+      appointmentDate: new Date(appointmentDate),
       appointmentTime,
     });
     const populated = await appointment.populate(
@@ -47,6 +47,7 @@ exports.bookAppointment = async (req, res) => {
       data: populated,
     });
   } catch (error) {
+    console.error(error);
     res.status(400).json({ success: false, message: error.message });
   }
 };

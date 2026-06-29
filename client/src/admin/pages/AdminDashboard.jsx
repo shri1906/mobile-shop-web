@@ -158,7 +158,7 @@ export default function AdminDashboard() {
             Welcome back! Here's what's happening.
           </p>
         </div>
-        <div className="flex flex-wrap gap-3">
+        {/* <div className="flex flex-wrap gap-3">
           <button
             onClick={handleSeedAdmin}
             className="btn-outline text-sm py-2 px-4"
@@ -178,7 +178,7 @@ export default function AdminDashboard() {
               "🌱 Seed Demo Data"
             )}
           </button>
-        </div>
+        </div> */}
       </div>
 
       {seedMsg && (
