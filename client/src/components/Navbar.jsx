@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { FaMobileRetro, FaMoon, FaSun } from "react-icons/fa6";
 
 function Navbar({ dark, setDark }) {
   const [scrolled, setScrolled] = useState(false);
@@ -29,8 +30,8 @@ function Navbar({ dark, setDark }) {
       }`}>
       <div className="max-w-6xl mx-auto px-6 flex items-center justify-between py-4">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2.5">
-          <span className="text-2xl">📱</span>
+        <Link to="/" className="flex items-center gap-1">
+          <FaMobileRetro className="text-[#1877F2] text-2xl" />
           <span className="font-display font-bold text-xl text-slate-900 dark:text-white">
             TechFix<span className="text-blue-500">Pro</span>
           </span>
@@ -57,7 +58,7 @@ function Navbar({ dark, setDark }) {
                        bg-slate-100 dark:bg-white/[0.06] text-slate-600 dark:text-slate-300
                        hover:bg-slate-200 dark:hover:bg-white/10 transition-all duration-200"
             aria-label="Toggle theme">
-            {dark ? '☀️' : '🌙'}
+            {dark ? <FaSun className="text-[#f29418]" /> : <FaMoon className="text-[#f29418]" /> }
           </button>
           <Link to="/appointment" className="btn-primary text-sm py-2.5 px-5">Book Now</Link>
         </div>
@@ -67,7 +68,7 @@ function Navbar({ dark, setDark }) {
           <button onClick={() => setDark(!dark)}
             className="w-9 h-9 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-white/[0.06] text-sm"
             aria-label="Toggle theme">
-            {dark ? '☀️' : '🌙'}
+            {dark ? <FaSun className="text-[#f29418]" /> : <FaMoon className="text-[#f29418]" /> }
           </button>
           <button onClick={() => setMenuOpen(!menuOpen)}
             className="w-9 h-9 rounded-lg flex flex-col items-center justify-center gap-1.5 bg-slate-100 dark:bg-white/[0.06]"
