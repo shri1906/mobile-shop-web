@@ -1,13 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import {
+  FaCalendarAlt,
+  FaHourglassHalf,
+  FaCheckCircle,
+  FaTools,
+  FaCheckDouble,
+  FaTimesCircle,
+  FaStar,
+} from "react-icons/fa";
+
+import { MdDashboard, MdReviews } from "react-icons/md";
 
 function StatCard({ label, value, icon, color, sub }) {
   return (
     <div className="admin-card">
       <div className="flex items-start justify-between mb-3">
         <div
-          className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl ${color}`}
+          className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm ${color}`}
         >
           {icon}
         </div>
@@ -94,55 +105,55 @@ export default function AdminDashboard() {
     {
       label: "Total Appointments",
       value: stats?.total ?? 0,
-      icon: "📅",
+      icon: <FaCalendarAlt className="text-blue-600 text-2xl" />,
       color: "bg-blue-100 dark:bg-blue-500/20",
     },
     {
       label: "Pending",
       value: stats?.pending ?? 0,
-      icon: "⏳",
+      icon: <FaHourglassHalf className="text-amber-500 text-2xl" />,
       color: "bg-amber-100 dark:bg-amber-500/20",
       sub: "Awaiting confirmation",
     },
     {
       label: "Confirmed",
       value: stats?.confirmed ?? 0,
-      icon: "✅",
+      icon: <FaCheckCircle className="text-blue-600 text-2xl" />,
       color: "bg-blue-100 dark:bg-blue-500/20",
       sub: "Ready to service",
     },
     {
       label: "In Progress",
       value: stats?.inProgress ?? 0,
-      icon: "🔧",
+      icon: <FaTools className="text-purple-600 text-2xl" />,
       color: "bg-purple-100 dark:bg-purple-500/20",
-      sub: "Currently being repaired",
+      sub: "Currently repairing",
     },
     {
       label: "Completed",
       value: stats?.completed ?? 0,
-      icon: "🎉",
+      icon: <FaCheckDouble className="text-green-600 text-2xl" />,
       color: "bg-green-100 dark:bg-green-500/20",
       sub: "Successfully repaired",
     },
     {
       label: "Cancelled",
       value: stats?.cancelled ?? 0,
-      icon: "❌",
+      icon: <FaTimesCircle className="text-red-600 text-2xl" />,
       color: "bg-red-100 dark:bg-red-500/20",
     },
     {
       label: "Active Services",
       value: services.length,
-      icon: "🛠️",
+      icon: <FaTools className="text-indigo-600 text-2xl" />,
       color: "bg-indigo-100 dark:bg-indigo-500/20",
     },
     {
-      label: "Avg Rating",
+      label: "Average Rating",
       value: feedbackStats?.avg ?? 0,
-      icon: "⭐",
-      color: "bg-amber-100 dark:bg-amber-500/20",
-      sub: `${feedbackStats?.total ?? 0} total reviews`,
+      icon: <FaStar className="text-yellow-500 text-2xl" />,
+      color: "bg-yellow-100 dark:bg-yellow-500/20",
+      sub: `${feedbackStats?.total ?? 0} Reviews`,
     },
   ];
 
@@ -151,9 +162,12 @@ export default function AdminDashboard() {
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-display font-bold text-slate-900 dark:text-white">
-            Dashboard
-          </h1>
+          <div className="flex items-center gap-3">
+            <MdDashboard className="text-3xl text-blue-600" />
+            <h1 className="text-2xl font-display font-bold text-slate-900 dark:text-white">
+              Dashboard
+            </h1>
+          </div>
           <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
             Welcome back! Here's what's happening.
           </p>
@@ -251,19 +265,19 @@ export default function AdminDashboard() {
         {[
           {
             to: "/admin/services",
-            icon: "🔧",
+            icon: <FaTools className="text-4xl text-blue-600" />,
             label: "Manage Services",
             desc: `${services.length} services active`,
           },
           {
             to: "/admin/appointments",
-            icon: "📅",
+            icon: <FaCalendarAlt className="text-4xl text-green-600" />,
             label: "Manage Appointments",
             desc: `${stats?.pending ?? 0} pending`,
           },
           {
             to: "/admin/feedback",
-            icon: "⭐",
+            icon: <FaStar className="text-4xl text-yellow-500" />,
             label: "Manage Reviews",
             desc: `${feedbackStats?.total ?? 0} total reviews`,
           },
@@ -273,7 +287,11 @@ export default function AdminDashboard() {
             to={l.to}
             className="admin-card hover:border-blue-300 dark:hover:border-blue-500/40 hover:-translate-y-0.5 transition-all block"
           >
-            <div className="text-3xl mb-3">{l.icon}</div>
+            <div className="flex justify-center mb-5">
+              <div className="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-navy flex items-center justify-center">
+                {l.icon}
+              </div>
+            </div>
             <p className="font-display font-semibold text-slate-900 dark:text-white">
               {l.label}
             </p>

@@ -21,6 +21,7 @@ function Navbar({ dark, setDark }) {
     { path: "/services", label: "Services" },
     { path: "/appointment", label: "Book Repair" },
     { path: "/feedback", label: "Reviews" },
+    {path:"/contact", label:"Contact us"}
   ];
 
   return (

@@ -15,6 +15,7 @@ import Services from "./pages/Services";
 import Appointment from "./pages/Appointment";
 import Feedback from "./pages/Feedback";
 import Login from "./pages/Login";
+import Contact from "./pages/Contact";
 
 // Admin
 import AdminLayout from "./admin/components/AdminLayout";
@@ -77,6 +78,16 @@ function AppRoutes({ dark, setDark }) {
           <>
             <Navbar dark={dark} setDark={setDark} />
             <Feedback />
+            <Footer />
+          </>
+        }
+      />
+      <Route
+        path="/contact"
+        element={
+          <>
+            <Navbar dark={dark} setDark={setDark} />
+            <Contact />
             <Footer />
           </>
         }

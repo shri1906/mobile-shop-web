@@ -256,7 +256,7 @@ export default function Home() {
                     "{fb.message}"
                   </p>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center font-display font-bold text-white">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-cyan-700 flex items-center justify-center font-display font-bold text-white">
                       {fb.name.charAt(0)}
                     </div>
                     <div>
@@ -279,7 +279,7 @@ export default function Home() {
       )}
 
       {/* CTA */}
-      <section className="py-20 relative overflow-hidden bg-gradient-to-r from-blue-700 via-blue-600 to-blue-800">
+      <section className="py-20 relative overflow-hidden bg-gradient-to-r from-cyan-700 via-cyan-600 to-cyan-800">
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
