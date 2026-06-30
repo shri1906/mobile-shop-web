@@ -2,6 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import {
+  MdPhoneIphone,
+  MdBatteryChargingFull,
+  MdWaterDrop,
+  MdBuild,
+  MdCloudDownload,
+} from "react-icons/md";
+
+import {
   FaTools,
   FaBolt,
   FaShieldAlt,
@@ -9,14 +17,24 @@ import {
   FaCheckCircle,
   FaStar,
   FaClock,
+  FaChargingStation,
 } from "react-icons/fa";
 
-import {
-  MdPhoneIphone,
-  MdBatteryChargingFull,
-  MdWaterDrop,
-  MdBuild,
-} from "react-icons/md";
+const serviceIcons = {
+  screen: <MdPhoneIphone className="text-blue-600 text-5xl" />,
+
+  battery: <MdBatteryChargingFull className="text-green-600 text-5xl" />,
+
+  water: <MdWaterDrop className="text-cyan-500 text-5xl" />,
+
+  software: <MdBuild className="text-purple-600 text-5xl" />,
+
+  recovery: <MdCloudDownload className="text-orange-500 text-5xl" />,
+
+  charging: <FaChargingStation className="text-red-500 text-5xl" />,
+
+  repair: <FaTools className="text-blue-600 text-5xl" />,
+};
 
 export default function Home() {
   const [services, setServices] = useState([]);
@@ -151,7 +169,11 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
               {services.map((s) => (
                 <div key={s._id} className="service-card">
-                  <div className="text-5xl mb-5">{s.icon}</div>
+                  <div className="flex justify-center mb-6">
+                    <div className="w-20 h-20 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center">
+                      {serviceIcons[s.icon] || serviceIcons.repair}
+                    </div>
+                  </div>
                   <h3 className="font-display font-semibold text-xl text-slate-900 dark:text-white mb-3">
                     {s.title}
                   </h3>

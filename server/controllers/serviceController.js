@@ -71,7 +71,7 @@ exports.seedServices = async (req, res) => {
         price: 1499,
         duration: "1-2 hours",
         category: "screen-repair",
-        icon: "📱",
+        icon: "screen",
       },
       {
         title: "Battery Replacement",
@@ -80,7 +80,7 @@ exports.seedServices = async (req, res) => {
         price: 799,
         duration: "30-60 mins",
         category: "battery",
-        icon: "🔋",
+        icon: "battery",
       },
       {
         title: "Water Damage Repair",
@@ -89,7 +89,7 @@ exports.seedServices = async (req, res) => {
         price: 1999,
         duration: "2-4 hours",
         category: "water-damage",
-        icon: "💧",
+        icon: "water",
       },
       {
         title: "Software Fix & Unlock",
@@ -98,7 +98,7 @@ exports.seedServices = async (req, res) => {
         price: 499,
         duration: "1-3 hours",
         category: "software",
-        icon: "⚙️",
+        icon: "software",
       },
       {
         title: "Data Recovery",
@@ -107,7 +107,7 @@ exports.seedServices = async (req, res) => {
         price: 2499,
         duration: "4-8 hours",
         category: "data-recovery",
-        icon: "💾",
+        icon: "recovery"
       },
       {
         title: "Charging Port Repair",
@@ -116,7 +116,7 @@ exports.seedServices = async (req, res) => {
         price: 599,
         duration: "1-2 hours",
         category: "other",
-        icon: "🔌",
+        icon: "charging",
       },
     ];
     await Service.insertMany(defaultServices);

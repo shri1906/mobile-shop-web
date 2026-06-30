@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { FaTools, FaChargingStation, FaSeedling } from "react-icons/fa";
+
+import {
+  MdPhoneIphone,
+  MdBatteryChargingFull,
+  MdWaterDrop,
+  MdBuild,
+  MdCloudDownload,
+} from "react-icons/md";
 
 const EMPTY = {
   title: "",
@@ -7,7 +16,7 @@ const EMPTY = {
   price: "",
   duration: "1-2 hours",
   category: "screen-repair",
-  icon: "🔧",
+  icon: "repair",
   isAvailable: true,
 };
 const CATEGORIES = [
@@ -18,7 +27,53 @@ const CATEGORIES = [
   "data-recovery",
   "other",
 ];
-const ICONS = ["📱", "🔋", "💧", "⚙️", "💾", "🔌", "🖥️", "🔇", "📷", "🔊"];
+const ICONS = [
+  {
+    key: "screen",
+    label: "Screen",
+    icon: <MdPhoneIphone className="text-2xl text-blue-600" />,
+  },
+  {
+    key: "battery",
+    label: "Battery",
+    icon: <MdBatteryChargingFull className="text-2xl text-green-600" />,
+  },
+  {
+    key: "water",
+    label: "Water",
+    icon: <MdWaterDrop className="text-2xl text-cyan-500" />,
+  },
+  {
+    key: "software",
+    label: "Software",
+    icon: <MdBuild className="text-2xl text-purple-600" />,
+  },
+  {
+    key: "recovery",
+    label: "Recovery",
+    icon: <MdCloudDownload className="text-2xl text-orange-500" />,
+  },
+  {
+    key: "charging",
+    label: "Charging",
+    icon: <FaChargingStation className="text-2xl text-red-500" />,
+  },
+  {
+    key: "repair",
+    label: "General",
+    icon: <FaTools className="text-2xl text-slate-600" />,
+  },
+];
+
+const serviceIcons = {
+  screen: <MdPhoneIphone className="text-blue-600 text-2xl" />,
+  battery: <MdBatteryChargingFull className="text-green-600 text-2xl" />,
+  water: <MdWaterDrop className="text-cyan-500 text-2xl" />,
+  software: <MdBuild className="text-purple-600 text-2xl" />,
+  recovery: <MdCloudDownload className="text-orange-500 text-2xl" />,
+  charging: <FaChargingStation className="text-red-500 text-2xl" />,
+  repair: <FaTools className="text-slate-600 text-2xl" />,
+};
 
 export default function AdminServices() {
   const [services, setServices] = useState([]);
@@ -192,24 +247,26 @@ export default function AdminServices() {
             >
               <div>
                 <label className="label">Icon</label>
-                <div className="flex flex-wrap gap-2 mb-2">
-                  {ICONS.map((ic) => (
+                <div className="grid grid-cols-4 gap-3">
+                  {ICONS.map((item) => (
                     <button
                       type="button"
-                      key={ic}
-                      onClick={() => setForm({ ...form, icon: ic })}
-                      className={`w-10 h-10 rounded-xl text-xl flex items-center justify-center transition-all ${form.icon === ic ? "bg-blue-600 shadow-lg" : "bg-slate-100 dark:bg-navy hover:bg-slate-200 dark:hover:bg-white/10"}`}
+                      key={item.key}
+                      onClick={() => setForm({ ...form, icon: item.key })}
+                      className={`p-3 rounded-xl border transition-all ${
+                        form.icon === item.key
+                          ? "border-blue-600 bg-blue-50 dark:bg-blue-500/10"
+                          : "border-slate-200 dark:border-white/10 hover:border-blue-400"
+                      }`}
                     >
-                      {ic}
+                      <div className="flex justify-center mb-2">
+                        {item.icon}
+                      </div>
+
+                      <div className="text-xs">{item.label}</div>
                     </button>
                   ))}
                 </div>
-                <input
-                  value={form.icon}
-                  onChange={(e) => setForm({ ...form, icon: e.target.value })}
-                  className="admin-input"
-                  placeholder="Or type emoji"
-                />
               </div>
               <div>
                 <label className="label">Title *</label>
@@ -364,7 +421,9 @@ export default function AdminServices() {
                     <tr key={s._id} className="table-row">
                       <td className="table-td">
                         <div className="flex items-center gap-3">
-                          <span className="text-2xl">{s.icon}</span>
+                          <div className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-navy flex items-center justify-center">
+                            {serviceIcons[s.icon] || serviceIcons.repair}
+                          </div>
                           <div>
                             <p className="font-semibold text-slate-900 dark:text-white">
                               {s.title}
