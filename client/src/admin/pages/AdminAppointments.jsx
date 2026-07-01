@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 const STATUSES = [
   "all",
@@ -17,7 +19,6 @@ export default function AdminAppointments() {
   const [search, setSearch] = useState("");
   const [total, setTotal] = useState(0);
   const [selected, setSelected] = useState(null);
-  const [msg, setMsg] = useState(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -27,7 +28,7 @@ export default function AdminAppointments() {
       setAppointments(r.data.data || []);
       setTotal(r.data.total || 0);
     } catch (e) {
-      showMsg("error", "Failed to load");
+      toast.error("Failed to load appointments.");
     } finally {
       setLoading(false);
     }
@@ -38,31 +39,55 @@ export default function AdminAppointments() {
     return () => clearTimeout(t);
   }, [load]);
 
-  const showMsg = (type, text) => {
-    setMsg({ type, text });
-    setTimeout(() => setMsg(null), 4000);
-  };
-
   const handleStatusChange = async (id, status) => {
+    const toastId = toast.loading("Updating appointment...");
+
     try {
       await axios.put(`/api/appointments/${id}`, { status });
-      showMsg("success", "Status updated!");
+
+      toast.success("Appointment updated successfully.", {
+        id: toastId,
+      });
+
       load();
-      if (selected?._id === id) setSelected((prev) => ({ ...prev, status }));
+
+      if (selected?._id === id) {
+        setSelected((prev) => ({ ...prev, status }));
+      }
     } catch (e) {
-      showMsg("error", "Update failed");
+      toast.error("Failed to update appointment.", {
+        id: toastId,
+      });
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete this appointment?")) return;
+    const result = await Swal.fire({
+      title: "Delete Appointment?",
+      text: "This action cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef4444",
+      confirmButtonText: "Delete",
+    });
+
+    if (!result.isConfirmed) return;
+
+    const toastId = toast.loading("Deleting appointment...");
+
     try {
       await axios.delete(`/api/appointments/${id}`);
-      showMsg("success", "Deleted!");
+
+      toast.success("Appointment deleted successfully.", {
+        id: toastId,
+      });
+
       setSelected(null);
       load();
     } catch (e) {
-      showMsg("error", "Delete failed");
+      toast.error("Failed to delete appointment.", {
+        id: toastId,
+      });
     }
   };
 
@@ -86,15 +111,6 @@ export default function AdminAppointments() {
           </p>
         </div>
       </div>
-
-      {msg && (
-        <div
-          className={`p-4 rounded-xl text-sm border ${msg.type === "success" ? "bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500/30 text-green-700 dark:text-green-300" : "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/30 text-red-700 dark:text-red-300"}`}
-        >
-          {msg.type === "success" ? "✅" : "❌"} {msg.text}
-        </div>
-      )}
-
       {/* Filters */}
       <div className="flex flex-wrap gap-3 items-center">
         <input

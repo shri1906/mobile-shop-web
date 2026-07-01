@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 export default function AdminFeedback() {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -46,7 +47,16 @@ export default function AdminFeedback() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete this review?")) return;
+    const result = await Swal.fire({
+      title: "Delete this Review?",
+      text: "This action cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef4444",
+      confirmButtonText: "Delete",
+    });
+
+    if (!result.isConfirmed) return;
     try {
       await axios.delete(`/api/feedback/${id}`);
       toast.success("Review deleted successfully.");
@@ -57,12 +67,16 @@ export default function AdminFeedback() {
   };
 
   const handleSeed = async () => {
-    if (
-      !window.confirm(
-        "Seed sample reviews? This replaces all existing reviews.",
-      )
-    )
-      return;
+    const result = await Swal.fire({
+      title: "Seed sample reviews? This replaces all existing reviews.",
+      text: "This action cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef4444",
+      confirmButtonText: "Delete",
+    });
+
+    if (!result.isConfirmed) return;
     setSeeding(true);
     try {
       await axios.post("/api/feedback/seed");

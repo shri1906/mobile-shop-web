@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaTools, FaChargingStation, FaSeedling } from "react-icons/fa";
+import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 import {
   MdPhoneIphone,
@@ -83,7 +85,6 @@ export default function AdminServices() {
   const [showForm, setShowForm] = useState(false);
   const [saving, setSaving] = useState(false);
   const [seeding, setSeeding] = useState(false);
-  const [msg, setMsg] = useState(null);
 
   useEffect(() => {
     load();
@@ -95,15 +96,10 @@ export default function AdminServices() {
       const r = await axios.get("/api/services");
       setServices(r.data.data || []);
     } catch (e) {
-      showMsg("error", e.response?.data?.message || "Failed to load");
+      toast.error(e.response?.data?.message || "Failed to load");
     } finally {
       setLoading(false);
     }
-  };
-
-  const showMsg = (type, text) => {
-    setMsg({ type, text });
-    setTimeout(() => setMsg(null), 4000);
   };
 
   const openAdd = () => {
@@ -131,31 +127,40 @@ export default function AdminServices() {
           ...form,
           price: Number(form.price),
         });
-        showMsg("success", "Service updated!");
+        toast.success("Service updated successfully!");
       } else {
         await axios.post("/api/services", {
           ...form,
           price: Number(form.price),
         });
-        showMsg("success", "Service created!");
+        toast.success("Service created sucessfully!");
       }
       closeForm();
       load();
     } catch (e) {
-      showMsg("error", e.response?.data?.message || "Save failed");
+      toast.error(e.response?.data?.message || "Failed to save!");
     } finally {
       setSaving(false);
     }
   };
 
   const handleDelete = async (id, title) => {
-    if (!window.confirm(`Delete "${title}"?`)) return;
+    const result = await Swal.fire({
+      title: `Delete "${title}"?`,
+      text: "This action cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef4444",
+      confirmButtonText: "Delete",
+    });
+
+    if (!result.isConfirmed) return;
     try {
       await axios.delete(`/api/services/${id}`);
-      showMsg("success", "Deleted!");
+      toast.success("Deleted successfully!");
       load();
     } catch (e) {
-      showMsg("error", "Delete failed");
+      toast.error("Failed to delete!");
     }
   };
 
@@ -166,22 +171,28 @@ export default function AdminServices() {
       });
       load();
     } catch (e) {
-      showMsg("error", "Toggle failed");
+      toast.error("Toggle failed");
     }
   };
 
   const handleSeed = async () => {
-    if (
-      !window.confirm("This will replace all services with defaults. Continue?")
-    )
-      return;
+    const result = await Swal.fire({
+      title: "This will replace all services with defaults. Continue?",
+      text: "This action cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef4444",
+      confirmButtonText: "Delete",
+    });
+
+    if (!result.isConfirmed) return;
     setSeeding(true);
     try {
       await axios.post("/api/services/seed");
-      showMsg("success", "Services seeded!");
+      toast.success("Services seeded successfully!");
       load();
     } catch (e) {
-      showMsg("error", "Seed failed");
+      toast.error("Failed to seed services");
     } finally {
       setSeeding(false);
     }
@@ -217,15 +228,6 @@ export default function AdminServices() {
           </button>
         </div>
       </div>
-
-      {msg && (
-        <div
-          className={`p-4 rounded-xl text-sm border ${msg.type === "success" ? "bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500/30 text-green-700 dark:text-green-300" : "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/30 text-red-700 dark:text-red-300"}`}
-        >
-          {msg.type === "success" ? "✅" : "❌"} {msg.text}
-        </div>
-      )}
-
       {/* Modal */}
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">

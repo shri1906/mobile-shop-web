@@ -39,7 +39,6 @@ export default function AdminDashboard() {
   const [feedbackStats, setFeedbackStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [seeding, setSeeding] = useState(false);
-  // const [seedMsg, setSeedMsg] = useState("");
 
   useEffect(() => {
     loadAll();
