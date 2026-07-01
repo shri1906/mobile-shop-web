@@ -9,8 +9,8 @@ import {
   FaSignOutAlt,
   FaMobileAlt,
 } from "react-icons/fa";
-
 import { MdDashboard, MdMenuOpen, MdMenu } from "react-icons/md";
+import toast from "react-hot-toast";
 
 const navItems = [
   {
@@ -45,6 +45,7 @@ export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const handleLogout = () => {
     logout();
+    toast.success("Logged out succesfully!");
     navigate("/login");
   };
 

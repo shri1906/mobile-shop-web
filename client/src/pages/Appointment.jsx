@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const TIME_SLOTS = [
   "9:00 AM",
@@ -34,8 +35,6 @@ export default function Appointment() {
     serviceId: searchParams.get("service") || "",
   });
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(null);
-  const [error, setError] = useState(null);
   const [trackEmail, setTrackEmail] = useState("");
   const [myAppointments, setMyAppointments] = useState([]);
   const [tracking, setTracking] = useState(false);
@@ -55,14 +54,12 @@ export default function Appointment() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
-    setSuccess(null);
     try {
       const res = await axios.post("/api/appointments", form);
-      setSuccess(res.data.message);
+      toast.success(res.data.message);
       setForm(EMPTY);
     } catch (err) {
-      setError(
+      toast.error(
         err.response?.data?.message || "Booking failed. Please try again.",
       );
     } finally {
@@ -109,18 +106,6 @@ export default function Appointment() {
             <h2 className="font-display font-bold text-2xl text-slate-900 dark:text-white mb-6">
               Repair Request
             </h2>
-
-            {success && (
-              <div className="mb-5 p-4 rounded-xl bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/30 text-green-700 dark:text-green-300 text-sm">
-                ✅ {success}
-              </div>
-            )}
-            {error && (
-              <div className="mb-5 p-4 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-700 dark:text-red-300 text-sm">
-                ❌ {error}
-              </div>
-            )}
-
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>

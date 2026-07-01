@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function AdminFeedback() {
   const [feedbacks, setFeedbacks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
-  const [msg, setMsg] = useState(null);
   const [seeding, setSeeding] = useState(false);
 
   useEffect(() => {
@@ -23,15 +23,10 @@ export default function AdminFeedback() {
       const r = await axios.get("/api/feedback/admin/all", { params });
       setFeedbacks(r.data.data || []);
     } catch (e) {
-      showMsg("error", "Failed to load");
+      toast.error("Failed to load reviews.");
     } finally {
       setLoading(false);
     }
-  };
-
-  const showMsg = (type, text) => {
-    setMsg({ type, text });
-    setTimeout(() => setMsg(null), 4000);
   };
 
   const handleToggleApproval = async (fb) => {
@@ -39,13 +34,14 @@ export default function AdminFeedback() {
       await axios.put(`/api/feedback/${fb._id}`, {
         isApproved: !fb.isApproved,
       });
-      showMsg(
-        "success",
-        fb.isApproved ? "Review hidden" : "Review approved & published",
+      toast.success(
+        fb.isApproved
+          ? "Review hidden successfully."
+          : "Review approved and published.",
       );
       load();
     } catch (e) {
-      showMsg("error", "Update failed");
+      toast.error("Failed to update review.");
     }
   };
 
@@ -53,10 +49,10 @@ export default function AdminFeedback() {
     if (!window.confirm("Delete this review?")) return;
     try {
       await axios.delete(`/api/feedback/${id}`);
-      showMsg("success", "Deleted!");
+      toast.success("Review deleted successfully.");
       load();
     } catch (e) {
-      showMsg("error", "Delete failed");
+      toast.error("Failed to delete review.");
     }
   };
 
@@ -70,10 +66,10 @@ export default function AdminFeedback() {
     setSeeding(true);
     try {
       await axios.post("/api/feedback/seed");
-      showMsg("success", "Sample reviews seeded!");
+      toast.success("Sample reviews seeded successfully.");
       load();
     } catch (e) {
-      showMsg("error", "Seed failed");
+      toast.error("Failed to seed reviews.");
     } finally {
       setSeeding(false);
     }
@@ -111,15 +107,6 @@ export default function AdminFeedback() {
           )}
         </button> */}
       </div>
-
-      {msg && (
-        <div
-          className={`p-4 rounded-xl text-sm border ${msg.type === "success" ? "bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500/30 text-green-700 dark:text-green-300" : "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/30 text-red-700 dark:text-red-300"}`}
-        >
-          {msg.type === "success" ? "✅" : "❌"} {msg.text}
-        </div>
-      )}
-
       {/* Filters */}
       <div className="flex flex-wrap gap-3 items-center">
         <input

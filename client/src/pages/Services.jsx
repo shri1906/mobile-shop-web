@@ -23,17 +23,11 @@ const CATEGORIES = [
 
 const serviceIcons = {
   screen: <MdPhoneIphone className="text-blue-600 text-5xl" />,
-
   battery: <MdBatteryChargingFull className="text-green-600 text-5xl" />,
-
   water: <MdWaterDrop className="text-cyan-500 text-5xl" />,
-
   software: <MdBuild className="text-purple-600 text-5xl" />,
-
   recovery: <MdCloudDownload className="text-orange-500 text-5xl" />,
-
   charging: <FaChargingStation className="text-red-500 text-5xl" />,
-
   repair: <FaTools className="text-blue-600 text-5xl" />,
 };
 

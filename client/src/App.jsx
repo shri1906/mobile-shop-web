@@ -6,6 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { Toaster } from "react-hot-toast";
 
 // User pages
 import Navbar from "./components/Navbar";
@@ -129,6 +130,47 @@ function App() {
   return (
     <AuthProvider>
       <Router>
+        <Toaster
+          position="top-center"
+          gutter={10}
+          toastOptions={{
+            duration: 3000,
+
+            style: {
+              background: dark ? "#0f172a" : "#ffffff",
+              color: dark ? "#f8fafc" : "#0f172a",
+              border: dark
+                ? "1px solid rgba(255,255,255,.08)"
+                : "1px solid #e5e7eb",
+              borderRadius: "12px",
+              padding: "14px 16px",
+              boxShadow: dark
+                ? "0 10px 30px rgba(0,0,0,.45)"
+                : "0 10px 25px rgba(0,0,0,.08)",
+            },
+
+            success: {
+              iconTheme: {
+                primary: "#22c55e",
+                secondary: "#ffffff",
+              },
+            },
+
+            error: {
+              iconTheme: {
+                primary: "#ef4444",
+                secondary: "#ffffff",
+              },
+            },
+
+            loading: {
+              iconTheme: {
+                primary: "#3b82f6",
+                secondary: "#ffffff",
+              },
+            },
+          }}
+        />
         <div className="min-h-screen flex flex-col">
           <AppRoutes dark={dark} setDark={setDark} />
         </div>

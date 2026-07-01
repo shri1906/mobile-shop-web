@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import toast from "react-hot-toast";
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export default function Login() {
       const user = await login(email, password);
       navigate(user.role === 'admin' ? '/admin' : '/');
     } catch (err) {
-      setError(err.response?.data?.message || 'Invalid credentials');
+      toast.error(err.response?.data?.message || 'Invalid credentials');
     } finally { setLoading(false); }
   };
 
@@ -32,17 +32,10 @@ export default function Login() {
         </div>
 
         <div className="bg-white dark:bg-navy-light border border-slate-200 dark:border-white/[0.06] rounded-2xl p-8 shadow-xl shadow-slate-200/50 dark:shadow-black/30">
-          {error && (
-            <div className="mb-5 p-4 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-700 dark:text-red-300 text-sm">
-              ❌ {error}
-            </div>
-          )}
-
           <div className="mb-6 p-4 rounded-xl bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-sm">
             <p className="font-semibold text-blue-700 dark:text-blue-300 mb-1">🔑 Admin credentials</p>
             <p className="text-blue-600 dark:text-blue-400">Email: <code>admin@techfixpro.in</code></p>
             <p className="text-blue-600 dark:text-blue-400">Password: <code>admin123</code></p>
-            <p className="text-xs text-blue-500 dark:text-blue-500 mt-1">Hit <code>/api/auth/seed-admin</code> once to create admin</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">

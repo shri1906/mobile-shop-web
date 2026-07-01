@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 
 import { MdDashboard, MdReviews } from "react-icons/md";
+import toast from "react-hot-toast";
 
 function StatCard({ label, value, icon, color, sub }) {
   return (
@@ -38,7 +39,7 @@ export default function AdminDashboard() {
   const [feedbackStats, setFeedbackStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [seeding, setSeeding] = useState(false);
-  const [seedMsg, setSeedMsg] = useState("");
+  // const [seedMsg, setSeedMsg] = useState("");
 
   useEffect(() => {
     loadAll();
@@ -65,6 +66,7 @@ export default function AdminDashboard() {
       });
     } catch (e) {
       console.error(e);
+      toast.error(e.message);
     } finally {
       setLoading(false);
     }
@@ -72,14 +74,13 @@ export default function AdminDashboard() {
 
   const handleSeedAll = async () => {
     setSeeding(true);
-    setSeedMsg("");
     try {
       await axios.post("/api/services/seed");
       await axios.post("/api/feedback/seed");
-      setSeedMsg("✅ Services & feedback seeded!");
+      toast.success("Services & feedback seeded!");
       loadAll();
     } catch (e) {
-      setSeedMsg("❌ Seed failed: " + (e.response?.data?.message || e.message));
+      toast.success("Seed failed: " + (e.response?.data?.message || e.message));
     } finally {
       setSeeding(false);
     }
@@ -88,9 +89,9 @@ export default function AdminDashboard() {
   const handleSeedAdmin = async () => {
     try {
       const res = await axios.post("/api/auth/seed-admin");
-      setSeedMsg("✅ " + res.data.message + " | email: " + res.data.email);
+      toast.success(res.data.message + " | email: " + res.data.email);
     } catch (e) {
-      setSeedMsg("❌ " + (e.response?.data?.message || e.message));
+      toast.error(e.response?.data?.message || e.message);
     }
   };
 
@@ -194,15 +195,6 @@ export default function AdminDashboard() {
           </button>
         </div> */}
       </div>
-
-      {seedMsg && (
-        <div
-          className={`p-4 rounded-xl text-sm border ${seedMsg.startsWith("✅") ? "bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500/30 text-green-700 dark:text-green-300" : "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/30 text-red-700 dark:text-red-300"}`}
-        >
-          {seedMsg}
-        </div>
-      )}
-
       {/* Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {statusCards.map((c, i) => (
